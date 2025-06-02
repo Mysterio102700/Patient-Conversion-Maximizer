@@ -440,7 +440,7 @@ That's it! The demo widget will appear as a floating button in the bottom-right 
 By default, the "Book a Call" button opens a placeholder Calendly link. To use your actual Calendly link:
 
 1. Open the `pcm-widget.min.js` file in a text editor
-2. Find all instances of `https://calendly.com/your-calendly-link`
+2. Find all instances of `https://calendly.com/orangecarrot`
 3. Replace them with your actual Calendly URL
 4. Save the file and re-upload it to your site
 

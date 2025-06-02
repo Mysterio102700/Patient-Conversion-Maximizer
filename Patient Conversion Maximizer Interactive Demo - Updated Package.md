@@ -650,7 +650,7 @@ The Patient Conversion Maximizer demo can be customized by passing configuration
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `calendlyUrl` | String | 'https://calendly.com/your-calendly-link' | URL for the "Book a Call" button |
+| `calendlyUrl` | String | 'https://calendly.com/orangecarrot' | URL for the "Book a Call" button |
 | `primaryColor` | String | '#FF7A00' | Primary color for buttons and accents |
 | `initialScenario` | Number | 1 | Which scenario to show first (1, 2, or 3) |
 | `autoOpen` | Boolean | true | Whether to automatically show the widget trigger |
