@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Conversion Maximizer Demo</title>
+  <style>
+    :root {
+      --primary: #FF7A00;
+      --primary-dark: #E56E00;
+      --primary-light: #FFA64D;
+      --secondary: #2D3748;
+      --text: #333333;
+      --text-light: #666666;
+      --background: #FFFFFF;
+      --background-alt: #F7F9FC;
+      --border: #E2E8F0;
+      --success: #48BB78;
+      --error: #E53E3E;
+      --info: #0096FF;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --radius: 8px;
+      --transition: all 0.3s ease;
+      --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: var(--font-main);
+      color: var(--text);
+      line-height: 1.5;
+      font-size: 16px;
+    }
+    button {
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+    :focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    .pcm-widget-trigger {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      transition: var(--transition);
+    }
+    .pcm-widget-trigger-button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow);
+      position: relative;
+      transition: var(--transition);
+    }
+    .pcm-widget-trigger-button:hover {
+      background-color: var(--primary-dark);
+      transform: scale(1.05);
+    }
+    .pcm-widget-trigger-button svg {
+      width: 24px;
+      height: 24px;
+    }
+    .pcm-notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: var(--error);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .pcm-widget-card {
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      width: 300px;
+      background-color: var(--background);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      padding: 20px;
+      transform-origin: bottom right;
+      transition: var(--transition);
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+    }
+    .pcm-widget-card.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: all;
+    }
+    .pcm-widget-card h3 {
+      color: var(--secondary);
+      margin-bottom: 10px;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+    .pcm-widget-card p {
+      color: var(--text-light);
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+    .pcm-widget-card-button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      padding: 10px 15px;
+      width: 100%;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    .pcm-widget-card-button:hover {
+      background-color: var(--primary-dark);
+    }
+    .pcm-widget-card-footer {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--text-light);
+      text-align: center;
+    }
+    .pcm-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition);
+    }
+    .pcm-modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .pcm-modal {
+      background-color: var(--background);
+      border-radius: var(--radius);
+      width: 90%;
+      max-width: 900px;
+      max-height: 80vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(20px);
+      transition: var(--transition);
+    }
+    .pcm-modal-overlay.active .pcm-modal {
+      transform: translateY(0);
+    }
+    .pcm-modal-header {
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .pcm-modal-close {
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      color: var(--text-light);
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+    .pcm-modal-close:hover {
+      background-color: var(--border);
+      color: var(--text);
+    }
+    .pcm-modal-progress {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: var(--text-light);
+    }
+    .pcm-progress-bar {
+      width: 100px;
+      height: 4px;
+      background-color: var(--border);
+      border-radius: 2px;
+      margin-left: 10px;
+      overflow: hidden;
+    }
+    .pcm-progress-bar-inner {
+      height: 100%;
+      background-color: var(--primary);
+      transition: width 0.3s ease;
+    }
+    .pcm-modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .pcm-modal-footer {
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+    }
+    .pcm-btn {
+      background-color: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      transition: var(--transition);
+    }
+    .pcm-btn:hover {
+      background-color: var(--background-alt);
+    }
+    .pcm-btn-primary {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+    }
+    .pcm-btn-primary:hover {
+      background-color: var(--primary-dark);
+    }
+    .pcm-skip-link {
+      font-size: 14px;
+      color: var(--text-light);
+      text-decoration: none;
+      margin-top: 10px;
+      display: inline-block;
+    }
+    .pcm-skip-link:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+    .pcm-scenario {
+      display: none;
+    }
+    .pcm-scenario.active {
+      display: block;
+    }
+    .pcm-scene-content {
+      display: none;
+    }
+    .pcm-scene-content.active {
+      display: block;
+    }
+    .pcm-scene-header {
+      margin-bottom: 20px;
+    }
+    .pcm-scene-header h2 {
+      font-size: 24px;
+      color: var(--secondary);
+      margin-bottom: 10px;
+    }
+    .pcm-scene-header p {
+      color: var(--text-light);
+    }
+    .pcm-phone-container {
+      max-width: 300px;
+      margin: 0 auto 20px;
+      border: 10px solid var(--secondary);
+      border-radius: 30px;
+      overflow: hidden;
+      position: relative;
+    }
+    .pcm-phone-header {
+      background-color: var(--secondary);
+      color: white;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+    .pcm-phone-content {
+      background-color: var(--background-alt);
+      padding: 15px;
+      min-height: 400px;
+    }
+    .pcm-incoming-call {
+      text-align: center;
+      padding: 20px 0;
+    }
+    .pcm-incoming-call-icon {
+      width: 60px;
+      height: 60px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: ring 1s infinite;
+    }
+    @keyframes ring {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    .pcm-incoming-call h3 {
+      margin-bottom: 10px;
+    }
+    .pcm-call-actions {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .pcm-call-action {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      color: white;
+    }
+    .pcm-call-answer {
+      background-color: var(--success);
+    }
+    .pcm-call-decline {
+      background-color: var(--error);
+    }
+    .pcm-pain-point {
+      background-color: #FFF3E0;
+      border-left: 4px solid var(--primary);
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .pcm-patient-card {
+      background-color: white;
+      border-radius: var(--radius);
+      padding: 15px;
+      box-shadow: var(--shadow);
+      margin: 20px 0;
+    }
+    .pcm-patient-card h4 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      color: var(--success);
+    }
+    .pcm-patient-card dl {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 8px;
+    }
+    .pcm-patient-card dt {
+      font-weight: 600;
+      color: var(--text-light);
+    }
+    .pcm-sms-conversation {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .pcm-sms-message {
+      max-width: 80%;
+      padding: 10px 15px;
+      border-radius: 18px;
+      position: relative;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .pcm-sms-message.visible {
+      opacity: 1;
+    }
+    .pcm-sms-time {
+      font-size: 11px;
+      margin-top: 5px;
+      opacity: 0.7;
+    }
+    .pcm-sms-ai {
+      background-color: #E2E8F0;
+      color: var(--text);
+      align-self: flex-start;
+      border-bottom-left-radius: 5px;
+    }
+    .pcm-sms-patient {
+      background-color: var(--primary);
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 5px;
+    }
+    .pcm-value-prop {
+      background-color: #E6F7FF;
+      border-radius: var(--radius);
+      padding: 15px;
+      margin: 20px 0;
+      border-left: 4px solid var(--info);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .pcm-value-prop.visible {
+      opacity: 1;
+    }
+    .pcm-roi-callout {
+      background-color: #F0FFF4;
+      border-radius: var(--radius);
+      padding: 15px;
+      margin: 20px 0;
+      border-left: 4px solid var(--success);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .pcm-roi-callout.visible {
+      opacity: 1;
+    }
+    .pcm-dashboard {
+      background-color: white;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .pcm-dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .pcm-hipaa-badge {
+      background-color: var(--success);
+      color: white;
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .pcm-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .pcm-metric-card {
+      background-color: var(--background-alt);
+      border-radius: var(--radius);
+      padding: 15px;
+    }
+    .pcm-metric-card h4 {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 5px;
+    }
+    .pcm-metric-value {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+    .pcm-metric-comparison {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+    .pcm-chart {
+      height: 200px;
+      margin: 20px 0;
+      position: relative;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .pcm-roi-calculator {
+      background-color: var(--background-alt);
+      border-radius: var(--radius);
+      padding: 15px;
+      margin-top: 20px;
+    }
+    .pcm-roi-calculator h3 {
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+    .pcm-roi-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .pcm-roi-row:last-child {
+      border-bottom: none;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .pcm-scenario-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+    .pcm-scenario-card {
+      background-color: white;
+      border-radius: var(--radius);
+      padding: 15px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: var(--transition);
+      border: 2px solid transparent;
+    }
+    .pcm-scenario-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+    .pcm-scenario-card.active {
+      border-color: var(--primary);
+    }
+    .pcm-scenario-card h3 {
+      margin-bottom: 10px;
+      color: var(--secondary);
+    }
+    .pcm-scenario-card p {
+      color: var(--text-light);
+      font-size: 14px;
+    }
+    .pcm-audio-player {
+      background-color: var(--background-alt);
+      border-radius: var(--radius);
+      padding: 15px;
+      margin: 20px 0;
+    }
+    .pcm-audio-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pcm-audio-play {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pcm-audio-progress {
+      flex: 1;
+      height: 4px;
+      background-color: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .pcm-audio-progress-inner {
+      height: 100%;
+      background-color: var(--primary);
+      width: 0;
+      transition: width 0.1s linear;
+    }
+    .pcm-audio-time {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+    .pcm-transcript {
+      margin-top: 15px;
+      font-size: 14px;
+      color: var(--text-light);
+      background-color: white;
+      padding: 10px;
+      border-radius: var(--radius);
+      max-height: 100px;
+      overflow-y: auto;
+    }
+    .pcm-calendar-container {
+      background-color: var(--background-alt);
+      border-radius: var(--radius);
+      padding: 15px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .pcm-calendar-animation {
+      height: 150px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24'%3E%3Cpath fill='%23E2E8F0' d='M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .pcm-calendar-animation::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      animation: calendar-select 1s ease-out 0.5s forwards;
+    }
+    @keyframes calendar-select {
+      to { transform: translate(-50%, -50%) scale(1); }
+    }
+    .pcm-confirmation-message {
+      font-weight: 600;
+      color: var(--success);
+      margin-top: 10px;
+    }
+    .pcm-followup-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .pcm-followup-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pcm-followup-list li:last-child {
+      border-bottom: none;
+    }
+    .pcm-followup-list svg {
+      color: var(--success);
+      flex-shrink: 0;
+    }
+    .pcm-pm-dashboard {
+      background-color: var(--background-alt);
+      border-radius: var(--radius);
+      padding: 15px;
+      margin: 20px 0;
+    }
+    .pcm-pm-dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .pcm-pm-dashboard-header h4 {
+      color: var(--secondary);
+    }
+    .pcm-pm-dashboard-alert {
+      background-color: var(--error);
+      color: white;
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 12px;
+    }
+    .pcm-patient-selection-card {
+      background-color: white;
+      border-radius: var(--radius);
+      padding: 15px;
+      box-shadow: var(--shadow);
+      margin-top: 15px;
+    }
+    .pcm-patient-selection-card h5 {
+      margin-bottom: 10px;
+    }
+    .pcm-patient-selection-card dl {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 5px;
+      font-size: 14px;
+    }
+    .pcm-patient-selection-card dt {
+      font-weight: 600;
+      color: var(--text-light);
+    }
+    .pcm-ai-analysis {
+      margin-top: 15px;
+      font-size: 14px;
+      color: var(--text-light);
+    }
+    .pcm-ai-analysis p {
+      margin-bottom: 5px;
+    }
+    @media (min-width: 768px) {
+      .pcm-scenario-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (max-width: 767px) {
+      .pcm-modal {
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        max-height: none;
+        border-radius: 0;
+      }
+      .pcm-modal-body {
+        padding: 15px;
+      }
+      .pcm-metrics-grid {
+        grid-template-columns: 1fr;
+      }
+      .pcm-widget-trigger {
+        bottom: 10px;
+        right: 10px;
+      }
+      .pcm-widget-card {
+        left: 50%;
+        transform: translateX(-50%) scale(0.9);
+        max-width: 95vw;
+        transform-origin: bottom center;
+      }
+      .pcm-widget-card.active {
+         transform: translateX(-50%) scale(1);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Widget Trigger -->
+  <div id="pcm-widget-trigger" class="pcm-widget-trigger">
+    <button id="pcm-widget-button" class="pcm-widget-trigger-button" aria-label="Open Patient Conversion Maximizer Demo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      <span id="pcm-notification-badge" class="pcm-notification-badge">1</span>
+    </button>
+    <div id="pcm-widget-card" class="pcm-widget-card" role="dialog" aria-labelledby="pcm-widget-title" aria-hidden="true">
+      <h3 id="pcm-widget-title">Never Miss Another Patient Call — Try the AI Demo</h3>
+      <p>See how our AI answers calls, sends follow-ups, and books appointments while you focus on patient care.</p>
+      <button id="pcm-widget-cta" class="pcm-widget-card-button">Experience the Demo</button>
+      <p class="pcm-widget-card-footer">Quick 60-second interactive experience</p>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="pcm-modal-overlay" class="pcm-modal-overlay">
+    <div id="pcm-modal" class="pcm-modal" role="dialog" aria-modal="true" aria-labelledby="pcm-modal-title">
+      <header class="pcm-modal-header">
+        <div id="pcm-modal-progress" class="pcm-modal-progress">
+          <span id="pcm-progress-text">Step 1 of 3</span>
+          <div class="pcm-progress-bar">
+            <div id="pcm-progress-bar-inner" class="pcm-progress-bar-inner" style="width: 33.3%;"></div>
+          </div>
+        </div>
+        <button id="pcm-modal-close" class="pcm-modal-close" aria-label="Close demo">&times;</button>
+      </header>
+      <main id="pcm-modal-body" class="pcm-modal-body">
+        <!-- Scenario Selection -->
+        <div id="scenario-selection" class="pcm-scenario">
+          <div class="pcm-scene-header">
+            <h2 id="pcm-modal-title">Explore Practice Challenges Solved by AI</h2>
+          </div>
+          <div class="pcm-scenario-grid">
+            <div class="pcm-scenario-card" data-scenario="1" role="button" tabindex="0">
+              <h3>After-Hours Emergency Call</h3>
+              <p>See how AI handles urgent patient calls when your office is closed, ensuring no emergency goes unaddressed and no opportunity is missed.</p>
+            </div>
+            <div class="pcm-scenario-card" data-scenario="2" role="button" tabindex="0">
+              <h3>Busy Front Desk Missing Calls</h3>
+              <p>Your team is helping patients in-office while calls pile up. See how AI ensures every caller receives immediate attention without putting anyone on hold.</p>
+            </div>
+            <div class="pcm-scenario-card" data-scenario="3" role="button" tabindex="0">
+              <h3>Patient Follow-up & Reactivation</h3>
+              <p>Patients who miss appointments or need follow-up often fall through the cracks. See how automated sequences keep them engaged and on track with their treatment plans.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 1: After-Hours Call -->
+        <div id="scenario-1" class="pcm-scenario active">
+          <!-- Scene 1-1: After-Hours Call -->
+          <div id="scene-1-1" class="pcm-scene-content active">
+            <div class="pcm-scene-header">
+              <h2>After Hours: When Patients Need You Most</h2>
+              <p>It's 8:45 PM on Saturday. Your practice is closed, but patient needs don't follow business hours.</p>
+            </div>
+            <div class="pcm-phone-container">
+              <div class="pcm-phone-header">
+                <span>8:45 PM</span>
+                <span>Saturday</span>
+              </div>
+              <div class="pcm-phone-content">
+                <div id="s1-incoming-call" class="pcm-incoming-call">
+                  <div class="pcm-incoming-call-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  </div>
+                  <h3>Jane Smith</h3>
+                  <p>Potential New Patient</p>
+                  <div class="pcm-call-actions">
+                    <button id="s1-answer-call" class="pcm-call-action pcm-call-answer" aria-label="Answer call">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    </button>
+                    <button class="pcm-call-action pcm-call-decline" aria-label="Decline call">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.68 13.31a16 16 0 0 0 3.41 3.41l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"></path><line x1="23" y1="1" x2="1" y2="23"></line></svg>
+                    </button>
+                  </div>
+                </div>
+                <div id="s1-ai-conversation" style="display: none;">
+                  <div class="pcm-audio-player">
+                    <p><strong>AI Assistant:</strong> Thank you for calling Bayside Dental...</p>
+                    <div class="pcm-audio-controls">
+                      <button id="s1-audio-play" class="pcm-audio-play" aria-label="Play audio">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                      </button>
+                      <div class="pcm-audio-progress">
+                        <div id="s1-audio-progress" class="pcm-audio-progress-inner"></div>
+                      </div>
+                      <span class="pcm-audio-time">0:00 / 0:30</span>
+                    </div>
+                    <div class="pcm-transcript">
+                      <p><strong>AI:</strong> Thank you for calling Bayside Dental. This is Amy, your AI assistant. While the office is closed, I can help schedule your appointment. May I ask what brings you in today?</p>
+                      <p><strong>Patient:</strong> Hi, I'm having some tooth pain that started today. I'm worried it might be an infection and was hoping to get in as soon as possible.</p>
+                      <p><strong>AI:</strong> I understand tooth pain can be very concerning. I can schedule you for our first available emergency slot tomorrow at 9:00 AM. Would that work for you?</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pcm-pain-point">
+              <p>Without AI assistance, this call would go to voicemail. <strong>87% of patients who reach voicemail will call your competitor next.</strong></p>
+            </div>
+            <div id="s1-patient-card" class="pcm-patient-card" style="display: none;">
+              <h4>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                New Patient Lead Captured & Prioritized
+              </h4>
+              <dl>
+                <dt>Name:</dt><dd>Jane Smith</dd>
+                <dt>Contact:</dt><dd>(555) 123-4567</dd>
+                <dt>Concern:</dt><dd>Tooth pain, possible infection</dd>
+                <dt>Urgency:</dt><dd>High - Next day appointment</dd>
+              </dl>
+            </div>
+          </div>
+          <!-- Scene 1-2: Instant SMS Follow-up -->
+          <div id="scene-1-2" class="pcm-scene-content">
+            <div class="pcm-scene-header">
+              <h2>Instant Follow-up: Converting Inquiries to Appointments</h2>
+            </div>
+            <div class="pcm-phone-container">
+              <div class="pcm-phone-header">
+                <span>8:47 PM</span>
+                <span>Saturday</span>
+              </div>
+              <div class="pcm-phone-content">
+                <div class="pcm-sms-conversation">
+                  <div id="s1-sms-1" class="pcm-sms-message pcm-sms-ai">
+                    Hi Jane, this is Amy from Bayside Dental confirming your emergency appointment for tomorrow (Sunday) at 9:00 AM with Dr. Roberts. Reply YES to confirm or suggest another time. Reply HELP for assistance.
+                    <div class="pcm-sms-time">8:47 PM</div>
+                  </div>
+                  <div id="s1-sms-2" class="pcm-sms-message pcm-sms-patient">
+                    YES, thank you! Can I fill out forms ahead of time?
+                    <div class="pcm-sms-time">8:49 PM</div>
+                  </div>
+                  <div id="s1-sms-3" class="pcm-sms-message pcm-sms-ai">
+                    Perfect! I've reserved your spot with Dr. Roberts. You can complete your intake forms here: [secure.link/intake]. This saves time tomorrow. Directions to our office: [maps.link/directions]. Need to reschedule? Just text or call this number.
+                    <div class="pcm-sms-time">8:49 PM</div>
+                  </div>
+                   <div id="s1-sms-4" class="pcm-sms-message pcm-sms-patient">
+                    Got it, thanks for the quick response!
+                    <div class="pcm-sms-time">8:52 PM</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="s1-value-prop" class="pcm-value-prop">
+              <p>While your competitors send patients to voicemail, your practice converts them to appointments—<strong>even at 8:45 PM on a Saturday.</strong></p>
+            </div>
+            <div id="s1-roi-callout" class="pcm-roi-callout">
+              <p>Emergency appointments average <strong>$1,250 in immediate revenue</strong> and <strong>$5,400 in lifetime value</strong>.</p>
+            </div>
+          </div>
+          <!-- Scene 1-3: Analytics Dashboard -->
+          <div id="scene-1-3" class="pcm-scene-content">
+            <div class="pcm-scene-header">
+              <h2>Actionable Insights: After-Hours Conversion</h2>
+              <p>After-Hours Performance Dashboard - Weekly Summary</p>
+            </div>
+            <div class="pcm-dashboard">
+              <div class="pcm-dashboard-header">
+                <h3>Weekly Performance</h3>
+                <span class="pcm-hipaa-badge">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  HIPAA Compliant
+                </span>
+              </div>
+              <div class="pcm-metrics-grid">
+                <div class="pcm-metric-card">
+                  <h4>Total Patient Inquiries Handled</h4>
+                  <div class="pcm-metric-value">127</div>
+                  <div class="pcm-metric-comparison">+34% vs. previous system</div>
+                </div>
+                <div class="pcm-metric-card">
+                  <h4>Average Response Time</h4>
+                  <div class="pcm-metric-value">0.8 min</div>
+                  <div class="pcm-metric-comparison">vs. industry avg: 3.2 hours</div>
+                </div>
+                <div class="pcm-metric-card">
+                  <h4>Conversion Rate (Inquiry → Appt)</h4>
+                  <div class="pcm-metric-value">78%</div>
+                  <div class="pcm-metric-comparison">vs. industry avg: 43%</div>
+                </div>
+                <div class="pcm-metric-card">
+                  <h4>After-Hours Conversions</h4>
+                  <div class="pcm-metric-value">31</div>
+                  <div class="pcm-metric-comparison">New patients (would have been missed)</div>
+                </div>
+              </div>
+              <div class="pcm-chart" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'600\' height=\'200\' viewBox=\'0 0 600 200\'%3E%3Cpath d=\'M0,150 C50,140 100,100 150,120 C200,140 250,90 300,100 C350,110 400,80 450,40 C500,0 550,60 600,50\' stroke=\'%23FF7A00\' stroke-width=\'3\' fill=\'none\'/%3E%3Cpath d=\'M0,150 C50,140 100,100 150,120 C200,140 250,90 300,100 C350,110 400,80 450,40 C500,0 550,60 600,50 L600,200 L0,200 Z\' fill=\'rgba(255,122,0,0.1)\'/%3E%3C/svg%3E');" title="Chart showing call volume by hour of day, with significant after-hours volume captured by AI"></div>
+              <div class="pcm-roi-calculator">
+                <h3>Revenue Impact Calculator</h3>
+                <div class="pcm-roi-row">
+                  <span>New Patients Captured After-Hours:</span>
+                  <span>31</span>
+                </div>
+                <div class="pcm-roi-row">
+                  <span>Average Patient Value:</span>
+                  <span>$3,200</span>
+                </div>
+                <div class="pcm-roi-row">
+                  <span>Estimated Monthly Revenue Impact:</span>
+                  <span>$99,200</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 2: Busy Front Desk -->
+        <div id="scenario-2" class="pcm-scenario">
+          <!-- Scene 2-1: Busy Office Hours Call -->
+          <div id="scene-2-1" class="pcm-scene-content">
+             <div class="pcm-scene-header">
+              <h2>Office Hours: When Every Call Counts</h2>
+              <p>It's 11:30 AM on Tuesday. Your front desk staff is helping in-office patients while calls are piling up.</p>
+            </div>
+            <div class="pcm-phone-container">
+              <div class="pcm-phone-header">
+                <span>11:30 AM</span>
+                <span>Tuesday</span>
+              </div>
+              <div class="pcm-phone-content">
+                <div id="s2-incoming-call" class="pcm-incoming-call">
+                  <div class="pcm-incoming-call-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  </div>
+                  <h3>Michael Johnson</h3>
+                  <p>Potential New Patient</p>
+                  <p style="font-size: 12px; color: var(--error);">3 calls in queue • Average wait: 4:30</p>
+                  <div class="pcm-call-actions">
+                    <button id="s2-answer-call" class="pcm-call-action pcm-call-answer" aria-label="Answer call">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    </button>
+                    <button class="pcm-call-action pcm-call-decline" aria-label="Decline call">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.68 13.31a16 16 0 0 0 3.41 3.41l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"></path><line x1="23" y1="1" x2="1" y2="23"></line></svg>
+                    </button>
+                  </div>
+                </div>
+                <div id="s2-ai-conversation" style="display: none;">
+                  <div class="pcm-audio-player">
+                    <p><strong>AI Assistant:</strong> Thank you for calling Bayside Health Center...</p>
+                    <div class="pcm-audio-controls">
+                      <button id="s2-audio-play" class="pcm-audio-play" aria-label="Play audio">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                      </button>
+                      <div class="pcm-audio-progress">
+                        <div id="s2-audio-progress" class="pcm-audio-progress-inner"></div>
+                      </div>
+                      <span class="pcm-audio-time">0:00 / 0:25</span>
+                    </div>
+                    <div class="pcm-transcript">
+                      <p><strong>AI:</strong> Thank you for calling Bayside Health Center. This is Amy, your AI assistant. I can help you schedule an appointment while our staff assists other patients. How may I help you today?</p>
+                      <p><strong>Patient:</strong> Hi, I'm calling to see if you have any appointments available this week? I've been having some back pain and my friend recommended your practice.</p>
+                      <p><strong>AI:</strong> I'd be happy to help you schedule an appointment, Michael. We have openings this Thursday at 2:00 PM or Friday at 10:30 AM. Would either of those work for you?</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pcm-pain-point">
+              <p>Without AI assistance, this call would go to voicemail or be placed on a long hold. <strong>68% of patients will not call back if their first call goes unanswered.</strong></p>
+            </div>
+            <div id="s2-patient-card" class="pcm-patient-card" style="display: none;">
+              <h4>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                New Patient Lead Captured & Scheduled
+              </h4>
+              <dl>
+                <dt>Name:</dt><dd>Michael Johnson</dd>
+                <dt>Contact:</dt><dd>(555) 987-6543</dd>
+                <dt>Concern:</dt><dd>Back pain, new patient referral</dd>
+                <dt>Preference:</dt><dd>This week appointment</dd>
+              </dl>
+            </div>
+          </div>
+          <!-- Scene 2-2: Instant Appointment Scheduling -->
+          <div id="scene-2-2" class="pcm-scene-content">
+            <div class="pcm-scene-header">
+              <h2>Seamless Scheduling: From Call to Confirmation</h2>
+            </div>
+            <div class="pcm-calendar-container">
+              <h4>Finding optimal appointment slot based on patient needs and provider availability</h4>
+              <div class="pcm-calendar-animation"></div>
+              <p class="pcm-confirmation-message">Appointment confirmed: Thursday, 2:00 PM with Dr. Williams</p>
+            </div>
+            <div id="s2-followup" class="pcm-patient-card">
+              <h4>Comprehensive follow-up automatically initiated:</h4>
+              <ul class="pcm-followup-list">
+                <li id="s2-followup-1" style="opacity: 0; transition: opacity 0.5s ease 0.5s;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Appointment confirmation email sent</li>
+                <li id="s2-followup-2" style="opacity: 0; transition: opacity 0.5s ease 1.0s;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> New patient intake forms attached</li>
+                <li id="s2-followup-3" style="opacity: 0; transition: opacity 0.5s ease 1.5s;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Office location and parking information included</li>
+                <li id="s2-followup-4" style="opacity: 0; transition: opacity 0.5s ease 2.0s;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Insurance verification request initiated</li>
+                <li id="s2-followup-5" style="opacity: 0; transition: opacity 0.5s ease 2.5s;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Reminder scheduled for 24 hours before appointment</li>
+              </ul>
+            </div>
+            <div id="s2-value-prop" class="pcm-value-prop">
+              <p>Your AI assistant handles appointment scheduling and sends all necessary information automatically, <strong>freeing your staff to focus on in-office patients.</strong></p>
+            </div>
+            <div id="s2-roi-callout" class="pcm-roi-callout">
+              <p>Each captured call during busy periods represents an average of <strong>$2,100 in new patient revenue</strong> that would otherwise be lost.</p>
+            </div>
+          </div>
+          <!-- Scene 2-3: Analytics Dashboard -->
+          <div id="scene-2-3" class="pcm-scene-content">
+            <div class="pcm-scene-header">
+              <h2>Actionable Insights: Front Desk Efficiency</h2>
+              <p>Front Desk Efficiency Dashboard - Weekly Summary</p>
+            </div>
+             <div class="pcm-dashboard">
+              <div class="pcm-dashboard-header">
+                <h3>Weekly Performance</h3>
+                <span class="pcm-hipaa-badge">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  HIPAA Compliant
+                </span>
+              </div>
+              <div class="pcm-metrics-grid">
+                <div class="pcm-metric-card">
+                  <h4>Simultaneous Calls Handled</h4>
+ 
+(Content truncated due to size limit. Use line ranges to read in chunks)
