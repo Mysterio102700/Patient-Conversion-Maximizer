@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -118,10 +119,12 @@
         transform: scale(1);
         opacity: 1;
       }
+
       50% {
         transform: scale(1.2);
         opacity: 0.8;
       }
+
       100% {
         transform: scale(1);
         opacity: 1;
@@ -331,12 +334,15 @@
     .pcm-scenario {
       display: none;
     }
+
     .pcm-scenario.active {
       display: block;
     }
+
     .pcm-scene-content {
       display: none;
     }
+
     .pcm-scene-content.active {
       display: block;
     }
@@ -397,9 +403,12 @@
     }
 
     @keyframes ring {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: scale(1);
       }
+
       50% {
         transform: scale(1.1);
       }
@@ -520,6 +529,7 @@
       opacity: 0;
       transition: opacity 0.5s ease;
     }
+
     .pcm-value-prop.visible {
       opacity: 1;
     }
@@ -533,6 +543,7 @@
       opacity: 0;
       transition: opacity 0.5s ease;
     }
+
     .pcm-roi-callout.visible {
       opacity: 1;
     }
@@ -740,6 +751,7 @@
       margin-bottom: 10px;
       position: relative;
     }
+
     .pcm-calendar-animation::after {
       content: '';
       position: absolute;
@@ -752,6 +764,7 @@
       transform: translate(-50%, -50%) scale(0);
       animation: calendar-select 1s ease-out 0.5s forwards;
     }
+
     @keyframes calendar-select {
       to {
         transform: translate(-50%, -50%) scale(1);
@@ -770,6 +783,7 @@
       padding: 0;
       margin: 0;
     }
+
     .pcm-followup-list li {
       padding: 8px 0;
       border-bottom: 1px solid var(--border);
@@ -777,9 +791,11 @@
       align-items: center;
       gap: 10px;
     }
+
     .pcm-followup-list li:last-child {
       border-bottom: none;
     }
+
     .pcm-followup-list svg {
       color: var(--success);
       flex-shrink: 0;
@@ -792,15 +808,18 @@
       padding: 15px;
       margin: 20px 0;
     }
+
     .pcm-pm-dashboard-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
     }
+
     .pcm-pm-dashboard-header h4 {
       color: var(--secondary);
     }
+
     .pcm-pm-dashboard-alert {
       background-color: var(--error);
       color: white;
@@ -808,6 +827,7 @@
       padding: 3px 8px;
       border-radius: 12px;
     }
+
     .pcm-patient-selection-card {
       background-color: white;
       border-radius: var(--radius);
@@ -815,24 +835,29 @@
       box-shadow: var(--shadow);
       margin-top: 15px;
     }
+
     .pcm-patient-selection-card h5 {
       margin-bottom: 10px;
     }
+
     .pcm-patient-selection-card dl {
       display: grid;
       grid-template-columns: 1fr 2fr;
       gap: 5px;
       font-size: 14px;
     }
+
     .pcm-patient-selection-card dt {
       font-weight: 600;
       color: var(--text-light);
     }
+
     .pcm-ai-analysis {
       margin-top: 15px;
       font-size: 14px;
       color: var(--text-light);
     }
+
     .pcm-ai-analysis p {
       margin-bottom: 5px;
     }
@@ -852,34 +877,39 @@
         max-height: none;
         border-radius: 0;
       }
-      
+
       .pcm-modal-body {
         padding: 15px;
       }
-      
+
       .pcm-metrics-grid {
         grid-template-columns: 1fr;
       }
-      
+
       .pcm-widget-trigger {
         bottom: 10px;
         right: 10px;
       }
-      
-          .pcm-widget-card {
-            /* width: calc(100% - 20px); /* Replaced */
-            /* right: 10px; /* Replaced */
-            left: 50%; /* Center horizontally */
-            transform: translateX(-50%) scale(0.9); /* Adjust centering, keep original transform */
-            max-width: 95vw; /* Ensure it fits screen width with padding */
-            /* box-sizing: border-box; is already applied globally */
-            /* Keep existing bottom positioning */
-            transform-origin: bottom center; /* Adjust origin for centered scaling */
-          }
-          .pcm-widget-card.active {
-             /* Override base active transform for centering */
-             transform: translateX(-100%) scale(1);
-          }
+
+      .pcm-widget-card {
+        /* width: calc(100% - 20px); /* Replaced */
+        /* right: 10px; /* Replaced */
+        left: 50%;
+        /* Center horizontally */
+        transform: translateX(-50%) scale(0.9);
+        /* Adjust centering, keep original transform */
+        max-width: 95vw;
+        /* Ensure it fits screen width with padding */
+        /* box-sizing: border-box; is already applied globally */
+        /* Keep existing bottom positioning */
+        transform-origin: bottom center;
+        /* Adjust origin for centered scaling */
+      }
+
+      .pcm-widget-card.active {
+        /* Override base active transform for centering */
+        transform: translateX(-100%) scale(1);
+      }
     }
 
     /* Reduced motion */
@@ -891,16 +921,104 @@
         scroll-behavior: auto !important;
       }
     }
+
+    .pcm-widget-trigger-button {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .pcm-widget-trigger-button {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .pcm-widget-trigger-button {
+      position: relative;
+      cursor: pointer;
+    }
+
+
+
+    /* Tooltip styles */
+    .pcm-widget-trigger-button .tooltip-text {
+      visibility: hidden;
+      opacity: 0;
+      width: 180px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 6px 8px;
+      border-radius: 4px;
+      position: absolute;
+      top: 50%;
+      right: 125%;
+      /* show left side */
+      transform: translateY(-50%);
+      transition: opacity 0.3s ease;
+      z-index: 10;
+      pointer-events: none;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    /* Tooltip arrow */
+    .pcm-widget-trigger-button .tooltip-text::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 100%;
+      margin-top: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent transparent #333;
+    }
+
+    /* Show tooltip on hover/focus for desktop */
+    .pcm-widget-trigger-button:hover .tooltip-text,
+    .pcm-widget-trigger-button:focus .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Show tooltip when class added */
+    .pcm-widget-trigger-button.show-tooltip .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Optional: style the notification badge */
+    #pcm-notification-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: red;
+      color: white;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 12px;
+      user-select: none;
+    }
   </style>
 </head>
+
 <body>
   <!-- Widget Trigger -->
   <div id="pcm-widget-trigger" class="pcm-widget-trigger">
-    <button id="pcm-widget-button" class="pcm-widget-trigger-button" aria-label="Open Patient Conversion Maximizer Demo">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+    <button id="pcm-widget-button" class="pcm-widget-trigger-button"
+      aria-label="Try the AI Demo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 
+               19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 
+               4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 
+               2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 
+               12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+      </svg>
       <span id="pcm-notification-badge" class="pcm-notification-badge">1</span>
+      <span class="tooltip-text">Try the AI Demo</span>
     </button>
-    <div id="pcm-widget-card" class="pcm-widget-card" role="dialog" aria-labelledby="pcm-widget-title" aria-hidden="true">
+    <div id="pcm-widget-card" class="pcm-widget-card" role="dialog" aria-labelledby="pcm-widget-title"
+      aria-hidden="true">
       <h3 id="pcm-widget-title">Never Miss Another Patient Call — Try the AI Demo</h3>
       <p>See how our AI answers calls, sends follow-ups, and books appointments while you focus on patient care.</p>
       <button id="pcm-widget-cta" class="pcm-widget-card-button">Experience the Demo</button>
@@ -929,15 +1047,18 @@
           <div class="pcm-scenario-grid">
             <div class="pcm-scenario-card" data-scenario="1" role="button" tabindex="0">
               <h3>After-Hours Emergency Call</h3>
-              <p>See how AI handles urgent patient calls when your office is closed, ensuring no emergency goes unaddressed and no opportunity is missed.</p>
+              <p>See how AI handles urgent patient calls when your office is closed, ensuring no emergency goes
+                unaddressed and no opportunity is missed.</p>
             </div>
             <div class="pcm-scenario-card" data-scenario="2" role="button" tabindex="0">
               <h3>Busy Front Desk Missing Calls</h3>
-              <p>Your team is helping patients in-office while calls pile up. See how AI ensures every caller receives immediate attention without putting anyone on hold.</p>
+              <p>Your team is helping patients in-office while calls pile up. See how AI ensures every caller receives
+                immediate attention without putting anyone on hold.</p>
             </div>
             <div class="pcm-scenario-card" data-scenario="3" role="button" tabindex="0">
               <h3>Patient Follow-up & Reactivation</h3>
-              <p>Patients who miss appointments or need follow-up often fall through the cracks. See how automated sequences keep them engaged and on track with their treatment plans.</p>
+              <p>Patients who miss appointments or need follow-up often fall through the cracks. See how automated
+                sequences keep them engaged and on track with their treatment plans.</p>
             </div>
           </div>
         </div>
@@ -958,16 +1079,32 @@
               <div class="pcm-phone-content">
                 <div id="s1-incoming-call" class="pcm-incoming-call">
                   <div class="pcm-incoming-call-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path
+                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                      </path>
+                    </svg>
                   </div>
                   <h3>Jane Smith</h3>
                   <p>Potential New Patient</p>
                   <div class="pcm-call-actions">
                     <button id="s1-answer-call" class="pcm-call-action pcm-call-answer" aria-label="Answer call">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                        </path>
+                      </svg>
                     </button>
                     <button class="pcm-call-action pcm-call-decline" aria-label="Decline call">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.68 13.31a16 16 0 0 0 3.41 3.41l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"></path><line x1="23" y1="1" x2="1" y2="23"></line></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                          d="M10.68 13.31a16 16 0 0 0 3.41 3.41l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91">
+                        </path>
+                        <line x1="23" y1="1" x2="1" y2="23"></line>
+                      </svg>
                     </button>
                   </div>
                 </div>
@@ -976,7 +1113,10 @@
                     <p><strong>AI Assistant:</strong> Thank you for calling Bayside Dental...</p>
                     <div class="pcm-audio-controls">
                       <button id="s1-audio-play" class="pcm-audio-play" aria-label="Play audio">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
                       </button>
                       <div class="pcm-audio-progress">
                         <div id="s1-audio-progress" class="pcm-audio-progress-inner"></div>
@@ -984,27 +1124,40 @@
                       <span class="pcm-audio-time">0:00 / 0:30</span>
                     </div>
                     <div class="pcm-transcript">
-                      <p><strong>AI:</strong> Thank you for calling Bayside Dental. This is Amy, your AI assistant. While the office is closed, I can help schedule your appointment. May I ask what brings you in today?</p>
-                      <p><strong>Patient:</strong> Hi, I'm having some tooth pain that started today. I'm worried it might be an infection and was hoping to get in as soon as possible.</p>
-                      <p><strong>AI:</strong> I understand tooth pain can be very concerning. I can schedule you for our first available emergency slot tomorrow at 9:00 AM. Would that work for you?</p>
+                      <p><strong>AI:</strong> Thank you for calling Bayside Dental. This is Amy, your AI assistant.
+                        While the office is closed, I can help schedule your appointment. May I ask what brings you in
+                        today?</p>
+                      <p><strong>Patient:</strong> Hi, I'm having some tooth pain that started today. I'm worried it
+                        might be an infection and was hoping to get in as soon as possible.</p>
+                      <p><strong>AI:</strong> I understand tooth pain can be very concerning. I can schedule you for our
+                        first available emergency slot tomorrow at 9:00 AM. Would that work for you?</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="pcm-pain-point">
-              <p>Without AI assistance, this call would go to voicemail. <strong>87% of patients who reach voicemail will call your competitor next.</strong></p>
+              <p>Without AI assistance, this call would go to voicemail. <strong>87% of patients who reach voicemail
+                  will call your competitor next.</strong></p>
             </div>
             <div id="s1-patient-card" class="pcm-patient-card" style="display: none;">
               <h4>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
                 New Patient Lead Captured & Prioritized
               </h4>
               <dl>
-                <dt>Name:</dt><dd>Jane Smith</dd>
-                <dt>Contact:</dt><dd>(555) 123-4567</dd>
-                <dt>Concern:</dt><dd>Tooth pain, possible infection</dd>
-                <dt>Urgency:</dt><dd>High - Next day appointment</dd>
+                <dt>Name:</dt>
+                <dd>Jane Smith</dd>
+                <dt>Contact:</dt>
+                <dd>(555) 123-4567</dd>
+                <dt>Concern:</dt>
+                <dd>Tooth pain, possible infection</dd>
+                <dt>Urgency:</dt>
+                <dd>High - Next day appointment</dd>
               </dl>
             </div>
           </div>
@@ -1021,7 +1174,9 @@
               <div class="pcm-phone-content">
                 <div class="pcm-sms-conversation">
                   <div id="s1-sms-1" class="pcm-sms-message pcm-sms-ai">
-                    Hi Jane, this is Amy from Bayside Dental confirming your emergency appointment for tomorrow (Sunday) at 9:00 AM with Dr. Roberts. Reply YES to confirm or suggest another time. Reply HELP for assistance.
+                    Hi Jane, this is Amy from Bayside Dental confirming your emergency appointment for tomorrow (Sunday)
+                    at 9:00 AM with Dr. Roberts. Reply YES to confirm or suggest another time. Reply HELP for
+                    assistance.
                     <div class="pcm-sms-time">8:47 PM</div>
                   </div>
                   <div id="s1-sms-2" class="pcm-sms-message pcm-sms-patient">
@@ -1029,10 +1184,12 @@
                     <div class="pcm-sms-time">8:49 PM</div>
                   </div>
                   <div id="s1-sms-3" class="pcm-sms-message pcm-sms-ai">
-                    Perfect! I've reserved your spot with Dr. Roberts. You can complete your intake forms here: [secure.link/intake]. This saves time tomorrow. Directions to our office: [maps.link/directions]. Need to reschedule? Just text or call this number.
+                    Perfect! I've reserved your spot with Dr. Roberts. You can complete your intake forms here:
+                    [secure.link/intake]. This saves time tomorrow. Directions to our office: [maps.link/directions].
+                    Need to reschedule? Just text or call this number.
                     <div class="pcm-sms-time">8:49 PM</div>
                   </div>
-                   <div id="s1-sms-4" class="pcm-sms-message pcm-sms-patient">
+                  <div id="s1-sms-4" class="pcm-sms-message pcm-sms-patient">
                     Got it, thanks for the quick response!
                     <div class="pcm-sms-time">8:52 PM</div>
                   </div>
@@ -1040,10 +1197,12 @@
               </div>
             </div>
             <div id="s1-value-prop" class="pcm-value-prop">
-              <p>While your competitors send patients to voicemail, your practice converts them to appointments—<strong>even at 8:45 PM on a Saturday.</strong></p>
+              <p>While your competitors send patients to voicemail, your practice converts them to
+                appointments—<strong>even at 8:45 PM on a Saturday.</strong></p>
             </div>
             <div id="s1-roi-callout" class="pcm-roi-callout">
-              <p>Emergency appointments average <strong>$1,250 in immediate revenue</strong> and <strong>$5,400 in lifetime value</strong>.</p>
+              <p>Emergency appointments average <strong>$1,250 in immediate revenue</strong> and <strong>$5,400 in
+                  lifetime value</strong>.</p>
             </div>
           </div>
           <!-- Scene 1-3: Analytics Dashboard -->
@@ -1056,7 +1215,11 @@
               <div class="pcm-dashboard-header">
                 <h3>Weekly Performance</h3>
                 <span class="pcm-hipaa-badge">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
                   HIPAA Compliant
                 </span>
               </div>
@@ -1082,7 +1245,10 @@
                   <div class="pcm-metric-comparison">New patients (would have been missed)</div>
                 </div>
               </div>
-              <div class="pcm-chart" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'600\' height=\'200\' viewBox=\'0 0 600 200\'%3E%3Cpath d=\'M0,150 C50,140 100,100 150,120 C200,140 250,90 300,100 C350,110 400,80 450,40 C500,0 550,60 600,50\' stroke=\'%23FF7A00\' stroke-width=\'3\' fill=\'none\'/%3E%3Cpath d=\'M0,150 C50,140 100,100 150,120 C200,140 250,90 300,100 C350,110 400,80 450,40 C500,0 550,60 600,50 L600,200 L0,200 Z\' fill=\'rgba(255,122,0,0.1)\'/%3E%3C/svg%3E');" title="Chart showing call volume by hour of day, with significant after-hours volume captured by AI"></div>
+              <div class="pcm-chart"
+                style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'600\' height=\'200\' viewBox=\'0 0 600 200\'%3E%3Cpath d=\'M0,150 C50,140 100,100 150,120 C200,140 250,90 300,100 C350,110 400,80 450,40 C500,0 550,60 600,50\' stroke=\'%23FF7A00\' stroke-width=\'3\' fill=\'none\'/%3E%3Cpath d=\'M0,150 C50,140 100,100 150,120 C200,140 250,90 300,100 C350,110 400,80 450,40 C500,0 550,60 600,50 L600,200 L0,200 Z\' fill=\'rgba(255,122,0,0.1)\'/%3E%3C/svg%3E');"
+                title="Chart showing call volume by hour of day, with significant after-hours volume captured by AI">
+              </div>
               <div class="pcm-roi-calculator">
                 <h3>Revenue Impact Calculator</h3>
                 <div class="pcm-roi-row">
@@ -1106,9 +1272,10 @@
         <div id="scenario-2" class="pcm-scenario">
           <!-- Scene 2-1: Busy Office Hours Call -->
           <div id="scene-2-1" class="pcm-scene-content">
-             <div class="pcm-scene-header">
+            <div class="pcm-scene-header">
               <h2>Office Hours: When Every Call Counts</h2>
-              <p>It's 11:30 AM on Tuesday. Your front desk staff is helping in-office patients while calls are piling up.</p>
+              <p>It's 11:30 AM on Tuesday. Your front desk staff is helping in-office patients while calls are piling
+                up.</p>
             </div>
             <div class="pcm-phone-container">
               <div class="pcm-phone-header">
@@ -1118,17 +1285,33 @@
               <div class="pcm-phone-content">
                 <div id="s2-incoming-call" class="pcm-incoming-call">
                   <div class="pcm-incoming-call-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path
+                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                      </path>
+                    </svg>
                   </div>
                   <h3>Michael Johnson</h3>
                   <p>Potential New Patient</p>
                   <p style="font-size: 12px; color: var(--error);">3 calls in queue • Average wait: 4:30</p>
                   <div class="pcm-call-actions">
                     <button id="s2-answer-call" class="pcm-call-action pcm-call-answer" aria-label="Answer call">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                        </path>
+                      </svg>
                     </button>
                     <button class="pcm-call-action pcm-call-decline" aria-label="Decline call">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.68 13.31a16 16 0 0 0 3.41 3.41l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"></path><line x1="23" y1="1" x2="1" y2="23"></line></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                          d="M10.68 13.31a16 16 0 0 0 3.41 3.41l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91">
+                        </path>
+                        <line x1="23" y1="1" x2="1" y2="23"></line>
+                      </svg>
                     </button>
                   </div>
                 </div>
@@ -1137,7 +1320,10 @@
                     <p><strong>AI Assistant:</strong> Thank you for calling Bayside Health Center...</p>
                     <div class="pcm-audio-controls">
                       <button id="s2-audio-play" class="pcm-audio-play" aria-label="Play audio">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
                       </button>
                       <div class="pcm-audio-progress">
                         <div id="s2-audio-progress" class="pcm-audio-progress-inner"></div>
@@ -1145,27 +1331,40 @@
                       <span class="pcm-audio-time">0:00 / 0:25</span>
                     </div>
                     <div class="pcm-transcript">
-                      <p><strong>AI:</strong> Thank you for calling Bayside Health Center. This is Amy, your AI assistant. I can help you schedule an appointment while our staff assists other patients. How may I help you today?</p>
-                      <p><strong>Patient:</strong> Hi, I'm calling to see if you have any appointments available this week? I've been having some back pain and my friend recommended your practice.</p>
-                      <p><strong>AI:</strong> I'd be happy to help you schedule an appointment, Michael. We have openings this Thursday at 2:00 PM or Friday at 10:30 AM. Would either of those work for you?</p>
+                      <p><strong>AI:</strong> Thank you for calling Bayside Health Center. This is Amy, your AI
+                        assistant. I can help you schedule an appointment while our staff assists other patients. How
+                        may I help you today?</p>
+                      <p><strong>Patient:</strong> Hi, I'm calling to see if you have any appointments available this
+                        week? I've been having some back pain and my friend recommended your practice.</p>
+                      <p><strong>AI:</strong> I'd be happy to help you schedule an appointment, Michael. We have
+                        openings this Thursday at 2:00 PM or Friday at 10:30 AM. Would either of those work for you?</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="pcm-pain-point">
-              <p>Without AI assistance, this call would go to voicemail or be placed on a long hold. <strong>68% of patients will not call back if their first call goes unanswered.</strong></p>
+              <p>Without AI assistance, this call would go to voicemail or be placed on a long hold. <strong>68% of
+                  patients will not call back if their first call goes unanswered.</strong></p>
             </div>
             <div id="s2-patient-card" class="pcm-patient-card" style="display: none;">
               <h4>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
                 New Patient Lead Captured & Scheduled
               </h4>
               <dl>
-                <dt>Name:</dt><dd>Michael Johnson</dd>
-                <dt>Contact:</dt><dd>(555) 987-6543</dd>
-                <dt>Concern:</dt><dd>Back pain, new patient referral</dd>
-                <dt>Preference:</dt><dd>This week appointment</dd>
+                <dt>Name:</dt>
+                <dd>Michael Johnson</dd>
+                <dt>Contact:</dt>
+                <dd>(555) 987-6543</dd>
+                <dt>Concern:</dt>
+                <dd>Back pain, new patient referral</dd>
+                <dt>Preference:</dt>
+                <dd>This week appointment</dd>
               </dl>
             </div>
           </div>
@@ -1182,18 +1381,46 @@
             <div id="s2-followup" class="pcm-patient-card">
               <h4>Comprehensive follow-up automatically initiated:</h4>
               <ul class="pcm-followup-list">
-                <li id="s2-followup-1" style="opacity: 0; transition: opacity 0.5s ease 0.5s;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Appointment confirmation email sent</li>
-                <li id="s2-followup-2" style="opacity: 0; transition: opacity 0.5s ease 1.0s;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> New patient intake forms attached</li>
-                <li id="s2-followup-3" style="opacity: 0; transition: opacity 0.5s ease 1.5s;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Office location and parking information included</li>
-                <li id="s2-followup-4" style="opacity: 0; transition: opacity 0.5s ease 2.0s;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Insurance verification request initiated</li>
-                <li id="s2-followup-5" style="opacity: 0; transition: opacity 0.5s ease 2.5s;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Reminder scheduled for 24 hours before appointment</li>
+                <li id="s2-followup-1" style="opacity: 0; transition: opacity 0.5s ease 0.5s;"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg> Appointment confirmation email sent</li>
+                <li id="s2-followup-2" style="opacity: 0; transition: opacity 0.5s ease 1.0s;"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg> New patient intake forms attached</li>
+                <li id="s2-followup-3" style="opacity: 0; transition: opacity 0.5s ease 1.5s;"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg> Office location and parking information included</li>
+                <li id="s2-followup-4" style="opacity: 0; transition: opacity 0.5s ease 2.0s;"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg> Insurance verification request initiated</li>
+                <li id="s2-followup-5" style="opacity: 0; transition: opacity 0.5s ease 2.5s;"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg> Reminder scheduled for 24 hours before appointment</li>
               </ul>
             </div>
             <div id="s2-value-prop" class="pcm-value-prop">
-              <p>Your AI assistant handles appointment scheduling and sends all necessary information automatically, <strong>freeing your staff to focus on in-office patients.</strong></p>
+              <p>Your AI assistant handles appointment scheduling and sends all necessary information automatically,
+                <strong>freeing your staff to focus on in-office patients.</strong>
+              </p>
             </div>
             <div id="s2-roi-callout" class="pcm-roi-callout">
-              <p>Each captured call during busy periods represents an average of <strong>$2,100 in new patient revenue</strong> that would otherwise be lost.</p>
+              <p>Each captured call during busy periods represents an average of <strong>$2,100 in new patient
+                  revenue</strong> that would otherwise be lost.</p>
             </div>
           </div>
           <!-- Scene 2-3: Analytics Dashboard -->
@@ -1202,11 +1429,15 @@
               <h2>Actionable Insights: Front Desk Efficiency</h2>
               <p>Front Desk Efficiency Dashboard - Weekly Summary</p>
             </div>
-             <div class="pcm-dashboard">
+            <div class="pcm-dashboard">
               <div class="pcm-dashboard-header">
                 <h3>Weekly Performance</h3>
                 <span class="pcm-hipaa-badge">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
                   HIPAA Compliant
                 </span>
               </div>
@@ -1232,7 +1463,10 @@
                   <div class="pcm-metric-comparison">vs. 4.2/5 before AI</div>
                 </div>
               </div>
-              <div class="pcm-chart" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'600\' height=\'200\' viewBox=\'0 0 600 200\'%3E%3Crect width=\'600\' height=\'200\' fill=\'%23F7F9FC\'/%3E%3Cpath d=\'M0,100 C100,80 200,120 300,100 C400,80 500,150 600,130\' stroke=\'%23FF7A00\' stroke-width=\'3\' fill=\'none\' stroke-dasharray=\'5,5\'/%3E%3Cpath d=\'M0,150 C100,140 200,100 300,120 C400,140 500,90 600,100\' stroke=\'%230096FF\' stroke-width=\'3\' fill=\'none\'/%3E%3Ctext x=\'10\' y=\'20\' font-family=\'sans-serif\' font-size=\'12\' fill=\'%23666\'%3ECall Volume (AI Handled)%3C/text%3E%3Ctext x=\'10\' y=\'40\' font-family=\'sans-serif\' font-size=\'12\' fill=\'%23666\'%3EStaff Availability (Dashed)%3C/text%3E%3C/svg%3E');" title="Chart showing call volume handled by AI versus staff availability, highlighting AI filling gaps during peak hours"></div>
+              <div class="pcm-chart"
+                style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'600\' height=\'200\' viewBox=\'0 0 600 200\'%3E%3Crect width=\'600\' height=\'200\' fill=\'%23F7F9FC\'/%3E%3Cpath d=\'M0,100 C100,80 200,120 300,100 C400,80 500,150 600,130\' stroke=\'%23FF7A00\' stroke-width=\'3\' fill=\'none\' stroke-dasharray=\'5,5\'/%3E%3Cpath d=\'M0,150 C100,140 200,100 300,120 C400,140 500,90 600,100\' stroke=\'%230096FF\' stroke-width=\'3\' fill=\'none\'/%3E%3Ctext x=\'10\' y=\'20\' font-family=\'sans-serif\' font-size=\'12\' fill=\'%23666\'%3ECall Volume (AI Handled)%3C/text%3E%3Ctext x=\'10\' y=\'40\' font-family=\'sans-serif\' font-size=\'12\' fill=\'%23666\'%3EStaff Availability (Dashed)%3C/text%3E%3C/svg%3E');"
+                title="Chart showing call volume handled by AI versus staff availability, highlighting AI filling gaps during peak hours">
+              </div>
               <div class="pcm-roi-calculator">
                 <h3>Revenue Impact Calculator</h3>
                 <div class="pcm-roi-row">
@@ -1243,7 +1477,7 @@
                   <span>Conversion Rate to Appointments:</span>
                   <span>72%</span>
                 </div>
-                 <div class="pcm-roi-row">
+                <div class="pcm-roi-row">
                   <span>Average New Patient Value:</span>
                   <span>$2,100</span>
                 </div>
@@ -1270,20 +1504,27 @@
                 <span class="pcm-pm-dashboard-alert">12 Patients Need Follow-up</span>
               </div>
               <p>Staff availability: None until tomorrow</p>
-              <div id="s3-patient-selection" class="pcm-patient-selection-card" style="opacity: 0; transition: opacity 0.5s ease 0.5s;">
+              <div id="s3-patient-selection" class="pcm-patient-selection-card"
+                style="opacity: 0; transition: opacity 0.5s ease 0.5s;">
                 <h5>AI Processing Follow-up Queue...</h5>
                 <p><strong>Selected Patient:</strong> Robert Garcia</p>
                 <dl>
-                  <dt>Status:</dt><dd>Missed appointment on Tuesday, no reschedule</dd>
-                  <dt>History:</dt><dd>Regular patient for 3 years</dd>
-                  <dt>Last Visit:</dt><dd>3 months ago</dd>
-                  <dt>Treatment:</dt><dd>Physical therapy, 8/12 sessions completed</dd>
-                  <dt>Insurance:</dt><dd>Coverage active</dd>
+                  <dt>Status:</dt>
+                  <dd>Missed appointment on Tuesday, no reschedule</dd>
+                  <dt>History:</dt>
+                  <dd>Regular patient for 3 years</dd>
+                  <dt>Last Visit:</dt>
+                  <dd>3 months ago</dd>
+                  <dt>Treatment:</dt>
+                  <dd>Physical therapy, 8/12 sessions completed</dd>
+                  <dt>Insurance:</dt>
+                  <dd>Coverage active</dd>
                 </dl>
               </div>
             </div>
             <div class="pcm-pain-point">
-              <p>Without automated follow-up, <strong>42% of missed appointments are never rescheduled</strong>, resulting in incomplete treatment plans and lost revenue.</p>
+              <p>Without automated follow-up, <strong>42% of missed appointments are never rescheduled</strong>,
+                resulting in incomplete treatment plans and lost revenue.</p>
             </div>
             <div id="s3-ai-analysis" class="pcm-ai-analysis" style="opacity: 0; transition: opacity 0.5s ease 1.5s;">
               <p><strong>AI Analysis:</strong></p>
@@ -1297,7 +1538,7 @@
             <div class="pcm-scene-header">
               <h2>Smart Reengagement: Personalized Patient Outreach</h2>
             </div>
-             <div class="pcm-phone-container">
+            <div class="pcm-phone-container">
               <div class="pcm-phone-header">
                 <span>5:32 PM</span>
                 <span>Wednesday</span>
@@ -1305,7 +1546,9 @@
               <div class="pcm-phone-content">
                 <div class="pcm-sms-conversation">
                   <div id="s3-sms-1" class="pcm-sms-message pcm-sms-ai">
-                    Hi Robert, we noticed you missed your physical therapy appointment on Tuesday. You've completed 8 of 12 recommended sessions. Would you like to reschedule to continue your progress? We have openings tomorrow at 10:00 AM or 3:30 PM.
+                    Hi Robert, we noticed you missed your physical therapy appointment on Tuesday. You've completed 8 of
+                    12 recommended sessions. Would you like to reschedule to continue your progress? We have openings
+                    tomorrow at 10:00 AM or 3:30 PM.
                     <div class="pcm-sms-time">5:32 PM</div>
                   </div>
                   <div id="s3-sms-2" class="pcm-sms-message pcm-sms-patient">
@@ -1313,23 +1556,31 @@
                     <div class="pcm-sms-time">5:35 PM</div>
                   </div>
                   <div id="s3-sms-3" class="pcm-sms-message pcm-sms-ai">
-                    Great! I've rescheduled your appointment for tomorrow at 3:30 PM with Dr. Martinez. You'll receive a reminder 1 hour before. Would you like me to send you the exercises Dr. Martinez recommended for home practice?
+                    Great! I've rescheduled your appointment for tomorrow at 3:30 PM with Dr. Martinez. You'll receive a
+                    reminder 1 hour before. Would you like me to send you the exercises Dr. Martinez recommended for
+                    home practice?
                     <div class="pcm-sms-time">5:35 PM</div>
                   </div>
-                   <div id="s3-sms-4" class="pcm-sms-message pcm-sms-patient">
+                  <div id="s3-sms-4" class="pcm-sms-message pcm-sms-patient">
                     Yes, that would be helpful. Thanks!
                     <div class="pcm-sms-time">5:37 PM</div>
                   </div>
-                   <div id="s3-sms-5" class="pcm-sms-message pcm-sms-ai">
-                    Perfect! I've sent the exercises to your email. See you tomorrow at 3:30 PM. Reply HELP if you need anything else.
+                  <div id="s3-sms-5" class="pcm-sms-message pcm-sms-ai">
+                    Perfect! I've sent the exercises to your email. See you tomorrow at 3:30 PM. Reply HELP if you need
+                    anything else.
                     <div class="pcm-sms-time">5:37 PM</div>
                   </div>
                 </div>
               </div>
             </div>
-            <div id="s3-reactivation-summary" class="pcm-patient-card" style="opacity: 0; transition: opacity 0.5s ease 3.0s;">
+            <div id="s3-reactivation-summary" class="pcm-patient-card"
+              style="opacity: 0; transition: opacity 0.5s ease 3.0s;">
               <h4>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
                 Reactivation Summary
               </h4>
               <ul class="pcm-followup-list">
@@ -1340,10 +1591,13 @@
               </ul>
             </div>
             <div id="s3-value-prop" class="pcm-value-prop">
-              <p>Your AI assistant proactively reengages patients who might otherwise drop out of their treatment plans, <strong>improving outcomes and practice revenue.</strong></p>
+              <p>Your AI assistant proactively reengages patients who might otherwise drop out of their treatment plans,
+                <strong>improving outcomes and practice revenue.</strong>
+              </p>
             </div>
             <div id="s3-roi-callout" class="pcm-roi-callout">
-              <p>Completing treatment plans increases patient satisfaction by <strong>47%</strong> and boosts lifetime patient value by <strong>28%</strong>.</p>
+              <p>Completing treatment plans increases patient satisfaction by <strong>47%</strong> and boosts lifetime
+                patient value by <strong>28%</strong>.</p>
             </div>
           </div>
           <!-- Scene 3-3: Analytics Dashboard -->
@@ -1356,7 +1610,11 @@
               <div class="pcm-dashboard-header">
                 <h3>Weekly Performance</h3>
                 <span class="pcm-hipaa-badge">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
                   HIPAA Compliant
                 </span>
               </div>
@@ -1382,7 +1640,9 @@
                   <div class="pcm-metric-comparison">24/7 Availability</div>
                 </div>
               </div>
-              <div class="pcm-chart" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'600\' height=\'200\' viewBox=\'0 0 600 200\'%3E%3Crect width=\'600\' height=\'200\' fill=\'%23F7F9FC\'/%3E%3Cpath d=\'M0,60 C150,70 300,50 450,60 C600,70\' stroke=\'%23FF7A00\' stroke-width=\'3\' fill=\'none\' stroke-dasharray=\'5,5\'/%3E%3Cpath d=\'M0,30 C150,20 300,40 450,30 C600,20\' stroke=\'%230096FF\' stroke-width=\'3\' fill=\'none\'/%3E%3Ctext x=\'10\' y=\'20\' font-family=\'sans-serif\' font-size=\'12\' fill=\'%23666\'%3ETreatment Completion Rate (AI)%3C/text%3E%3Ctext x=\'10\' y=\'40\' font-family=\'sans-serif\' font-size=\'12\' fill=\'%23666\'%3ETreatment Completion Rate (Before AI - Dashed)%3C/text%3E%3C/svg%3E');" title="Chart showing treatment plan completion rates before and after AI implementation"></div>
+              <div class="pcm-chart"
+                style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'600\' height=\'200\' viewBox=\'0 0 600 200\'%3E%3Crect width=\'600\' height=\'200\' fill=\'%23F7F9FC\'/%3E%3Cpath d=\'M0,60 C150,70 300,50 450,60 C600,70\' stroke=\'%23FF7A00\' stroke-width=\'3\' fill=\'none\' stroke-dasharray=\'5,5\'/%3E%3Cpath d=\'M0,30 C150,20 300,40 450,30 C600,20\' stroke=\'%230096FF\' stroke-width=\'3\' fill=\'none\'/%3E%3Ctext x=\'10\' y=\'20\' font-family=\'sans-serif\' font-size=\'12\' fill=\'%23666\'%3ETreatment Completion Rate (AI)%3C/text%3E%3Ctext x=\'10\' y=\'40\' font-family=\'sans-serif\' font-size=\'12\' fill=\'%23666\'%3ETreatment Completion Rate (Before AI - Dashed)%3C/text%3E%3C/svg%3E');"
+                title="Chart showing treatment plan completion rates before and after AI implementation"></div>
               <div class="pcm-roi-calculator">
                 <h3>Revenue Impact Calculator</h3>
                 <div class="pcm-roi-row">
@@ -1393,7 +1653,7 @@
                   <span>Avg. Value Per Completed Treatment Plan:</span>
                   <span>$3,800</span>
                 </div>
-                 <div class="pcm-roi-row">
+                <div class="pcm-roi-row">
                   <span>Reduction in Patient Churn:</span>
                   <span>47%</span>
                 </div>
@@ -1410,7 +1670,8 @@
       <footer class="pcm-modal-footer">
         <div>
           <button id="try-another" class="pcm-btn" style="display: none;">Try Another Scenario</button>
-          <a id="skip-to-call" href="https://calendly.com/marketing-mike" target="_blank" class="pcm-skip-link">Skip to booking a call →</a>
+          <a id="skip-to-call" href="https://calendly.com/marketing-mike" target="_blank" class="pcm-skip-link">Skip to
+            booking a call →</a>
         </div>
         <button id="next-step" class="pcm-btn pcm-btn-primary">See What Happens Next →</button>
       </footer>
@@ -1418,7 +1679,7 @@
   </div>
 
   <script>
-    (function() {
+    (function () {
       // DOM Elements
       const widgetTrigger = document.getElementById('pcm-widget-trigger');
       const widgetButton = document.getElementById('pcm-widget-button');
@@ -1755,10 +2016,10 @@
         audioTimer = null;
         // Reset play buttons and progress for all scenarios
         [s1AudioPlayButton, s2AudioPlayButton].forEach(btn => {
-          if(btn) btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>'; // Play icon
+          if (btn) btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>'; // Play icon
         });
         [s1AudioProgress, s2AudioProgress].forEach(prog => {
-          if(prog) prog.style.width = '0%';
+          if (prog) prog.style.width = '0%';
         });
       }
 
@@ -1769,21 +2030,21 @@
 
         // Reset visibility and animations for all elements that might animate
         [s1AIConversation, s1PatientCard, s1ValueProp, s1RoiCallout,
-         s2AIConversation, s2PatientCard, s2ValueProp, s2RoiCallout,
-         s3PatientSelection, s3AIAnalysis, s3ReactivationSummary, s3ValueProp, s3RoiCallout]
-        .forEach(el => {
+          s2AIConversation, s2PatientCard, s2ValueProp, s2RoiCallout,
+          s3PatientSelection, s3AIAnalysis, s3ReactivationSummary, s3ValueProp, s3RoiCallout]
+          .forEach(el => {
+            if (el) {
+              el.style.display = 'none'; // Reset display if needed
+              el.style.opacity = '0';
+              el.classList.remove('visible');
+            }
+          });
+
+        [...s1SmsElements, ...s2FollowupElements, ...s3SmsElements].forEach(el => {
           if (el) {
-            el.style.display = 'none'; // Reset display if needed
             el.style.opacity = '0';
             el.classList.remove('visible');
           }
-        });
-
-        [...s1SmsElements, ...s2FollowupElements, ...s3SmsElements].forEach(el => {
-           if (el) {
-             el.style.opacity = '0';
-             el.classList.remove('visible');
-           }
         });
 
         // Reset scenario selection cards
@@ -1819,9 +2080,9 @@
       scenarioCards.forEach(card => {
         card.addEventListener('click', selectScenarioHandler);
         card.addEventListener('keydown', (e) => {
-           if (e.key === 'Enter' || e.key === ' ') {
-             selectScenarioHandler(e);
-           }
+          if (e.key === 'Enter' || e.key === ' ') {
+            selectScenarioHandler(e);
+          }
         });
       });
 
@@ -1835,7 +2096,20 @@
         close: closeModal
       };
     })();
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Check if device is mobile (no hover, coarse pointer)
+      if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+        const button = document.getElementById('pcm-widget-button');
+        button.classList.add('show-tooltip');
+
+        setTimeout(() => {
+          button.classList.remove('show-tooltip');
+        }, 10000); // Hide after 10 seconds
+      }
+    });
+
   </script>
 </body>
-</html>
 
+</html>
